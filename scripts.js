@@ -11,6 +11,10 @@ function multiply(a,b) {
 }
 
 function divide(a,b) {
+    if(b===0) {
+        alert('You cannot divide by 0!!!!');
+        return;
+    }
     return a/b;
 }
 
@@ -49,6 +53,11 @@ document.querySelectorAll('.button.number').forEach(item => {
 });
 
 function numberClicked(e) {
+    if (e.target.getAttribute('id') === 'decimal') {
+        if (activeNumber.includes('.')) {
+            return;
+        }
+    }
     if (operatorActive === true) {
         activeNumber = this.textContent;
         operatorActive = false;
@@ -72,6 +81,9 @@ function operatorClicked(e) {
         activeOperator = this.textContent;
     } else {
         activeOperator = this.textContent;
+        if (activeNumber === '') {
+            activeNumber = 0;
+        }
         firstNumber = parseInt(activeNumber);
         operatorActive = true;
     }
@@ -104,3 +116,12 @@ function clear(e) {
     operatorActive = false;
     expressionOutput.textContent = '';
 }
+
+// Adding in the delete functionality
+
+document.querySelector('.back').addEventListener('click', ()=> {
+    if (activeNumber.length > 0) {
+        activeNumber = activeNumber.slice(0,-1);
+        expressionOutput.textContent = activeNumber;
+    }
+});
